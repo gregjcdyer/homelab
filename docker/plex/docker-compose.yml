@@ -1,5 +1,5 @@
 ---
-version: "3"
+version: '3'
 services:
   plex:
     image: lscr.io/linuxserver/plex
@@ -12,22 +12,24 @@ services:
       #- PLEX_CLAIM= #optional
     volumes:
       - /home/serveradmin/plex/data:/config
-      - /mnt/media/Plex/TV Shows:/tv
-      - /mnt/media/Plex/Movies:/movies
-      - /mnt/media/Plex/Music:/music
+      - /mnt/nas-media/Plex/TV Shows:/tv
+      - /mnt/nas-media/Plex/Movies:/movies
+      - /mnt/nas-media/Plex/Music:/music
     restart: unless-stopped
+    networks:
+      - proxy
     labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.plex.entrypoints=http"
-      - "traefik.http.routers.plex.rule=Host(`plex.local.gregdyer.ca`)"
-      - "traefik.http.middlewares.plex-https-redirect.redirectscheme.scheme=https"
-      - "traefik.http.routers.plex.middlewares=plex-https-redirect"
-      - "traefik.http.routers.plex-secure.entrypoints=https"
-      - "traefik.http.routers.plex-secure.rule=Host(`plex.local.gregdyer.ca`)"
-      - "traefik.http.routers.plex-secure.tls=true"
-      - "traefik.http.routers.plex-secure.service=plex"
-      - "traefik.http.services.plex.loadbalancer.server.port=32400"
-      - "traefik.docker.network=proxy"
+      - 'traefik.enable=true'
+      - 'traefik.http.routers.plex.entrypoints=http'
+      - 'traefik.http.routers.plex.rule=Host(`plex.local.gregdyer.ca`)'
+      - 'traefik.http.middlewares.plex-https-redirect.redirectscheme.scheme=https'
+      - 'traefik.http.routers.plex.middlewares=plex-https-redirect'
+      - 'traefik.http.routers.plex-secure.entrypoints=https'
+      - 'traefik.http.routers.plex-secure.rule=Host(`plex.local.gregdyer.ca`)'
+      - 'traefik.http.routers.plex-secure.tls=true'
+      - 'traefik.http.routers.plex-secure.service=plex'
+      - 'traefik.http.services.plex.loadbalancer.server.port=32400'
+      - 'traefik.docker.network=proxy'
 
 networks:
   proxy:

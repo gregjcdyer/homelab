@@ -12,6 +12,8 @@ services:
       - /home/serveradmin/tautulli/config:/config
     ports:
       - 8181:8181
+    networks:
+      - proxy
     restart: unless-stopped
     labels:
       - "traefik.enable=true"
@@ -22,7 +24,7 @@ services:
       - "traefik.http.routers.tautulli-secure.entrypoints=https"
       - "traefik.http.routers.tautulli-secure.rule=Host(`tautulli.local.gregdyer.ca`)"
       - "traefik.http.routers.tautulli-secure.tls=true"
-      - "traefik.http.routers.tautulli-secure.service=plex"
+      - "traefik.http.routers.tautulli-secure.service=tautulli"
       - "traefik.http.services.tautulli.loadbalancer.server.port=8181"
       - "traefik.docker.network=proxy"
 

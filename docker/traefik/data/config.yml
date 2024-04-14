@@ -3,16 +3,16 @@ http:
   routers:
     proxmox:
       entryPoints:
-        - "https"
-      rule: "Host(`proxmox.local.gregdyer.ca`)"
+        - 'https'
+      rule: 'Host(`proxmox.local.gregdyer.ca`)'
       middlewares:
         - default-headers
       tls: {}
       service: proxmox
     pihole:
       entryPoints:
-        - "https"
-      rule: "Host(`pihole.local.gregdyer.ca`)"
+        - 'https'
+      rule: 'Host(`pihole.local.gregdyer.ca`)'
       middlewares:
         - default-headers
         - addprefix-pihole
@@ -20,76 +20,179 @@ http:
       service: pihole
     plex:
       entryPoints:
-        - "https"
-      rule: "Host(`plex.local.gregdyer.ca`)"
+        - 'https'
+      rule: 'Host(`plex.local.gregdyer.ca`)'
       middlewares:
         - default-headers
       tls: {}
       service: plex
     rancher:
       entryPoints:
-        - "https"
-      rule: "Host(`rancher.local.gregdyer.ca`)"
+        - 'https'
+      rule: 'Host(`rancher.local.gregdyer.ca`)'
       middlewares:
         - default-headers
       tls: {}
       service: rancher
     idrac:
       entryPoints:
-        - "https"
-      rule: "Host(`idrac.local.gregdyer.ca`)"
+        - 'https'
+      rule: 'Host(`idrac.local.gregdyer.ca`)'
       middlewares:
         - idrac
       tls: {}
       service: idrac
     idrac-console:
-      entryPoints:
-        - "idrac" # REQUIRED for iDRAC virtual console: Create a new TCP entry point in traefik on port 5900
-      rule: "Host(`idrac.local.gregdyer.ca`)"
+      #entryPoints:
+      #- 'idrac' # REQUIRED for iDRAC virtual console: Create a new TCP entry point in traefik on port 5900
+      rule: 'Host(`idrac.local.gregdyer.ca`)'
       middlewares:
         - idrac
       tls: {}
       service: idrac-console
-
+    synology:
+      entryPoints:
+        - 'https'
+      rule: 'Host(`landfill.local.gregdyer.ca`)'
+      middlewares:
+        - default-headers
+      tls: {}
+      service: synology
+    tautulli:
+      entryPoints:
+        - 'https'
+      rule: 'Host(`tautulli.local.gregdyer.ca`)'
+      middlewares:
+        - default-headers
+      tls: {}
+      service: tautulli
+    transmission:
+      entryPoints:
+        - 'https'
+      rule: 'Host(`transmission.local.gregdyer.ca`)'
+      middlewares:
+        - default-headers
+      tls: {}
+      service: transmission
+    radarr:
+      entryPoints:
+        - 'https'
+      rule: 'Host(`radarr.local.gregdyer.ca`)'
+      middlewares:
+        - default-headers
+      tls: {}
+      service: radarr
+    sonarr:
+      entryPoints:
+        - 'https'
+      rule: 'Host(`sonarr.local.gregdyer.ca`)'
+      middlewares:
+        - default-headers
+      tls: {}
+      service: sonarr
+    overseerr:
+      entryPoints:
+        - 'https'
+      rule: 'Host(`overseerr.local.gregdyer.ca`)'
+      middlewares:
+        - default-headers
+      tls: {}
+      service: overseerr
+    prowlarr:
+      entryPoints:
+        - 'https'
+      rule: 'Host(`prowlarr.local.gregdyer.ca`)'
+      middlewares:
+        - default-headers
+      tls: {}
+      service: prowlarr
+    homeassistant:
+      entryPoints:
+        - 'https'
+      rule: 'Host(`home-assistant.local.gregdyer.ca`)'
+      middlewares:
+        - default-headers
+      tls: {}
+      service: homeassistant
   #endregion
   #region services
   services:
     proxmox:
       loadBalancer:
         servers:
-          - url: "https://192.168.0.10:8006"
+          - url: 'https://192.168.0.13:8006'
         passHostHeader: true
     pihole:
       loadBalancer:
         servers:
-          - url: "http://192.168.0.5:80"
+          - url: 'http://192.168.0.5:80'
         passHostHeader: true
     plex:
       loadBalancer:
         servers:
-          - url: "https://192.168.0.105:32400"
+          - url: 'https://192.168.0.61:32400'
         passHostHeader: true
     rancher:
       loadBalancer:
         servers:
-          - url: "https://192.168.0.107"
+          - url: 'https://192.168.0.107'
         passHostHeader: true
     idrac:
       loadBalancer:
         servers:
-          - url: "https://192.168.0.20"
+          - url: 'https://192.168.0.20'
         passHostHeader: true
     idrac-console:
       loadBalancer:
         servers:
-          - url: "https://192.168.0.20:5900"
+          - url: 'https://192.168.0.20:5900'
+        passHostHeader: true
+    synology:
+      loadBalancer:
+        servers:
+          - url: 'https://192.168.0.12:5001'
+        passHostHeader: true
+    tautulli:
+      loadBalancer:
+        servers:
+          - url: 'http://192.168.0.61:8181'
+        passHostHeader: true
+    transmission:
+      loadBalancer:
+        servers:
+          - url: 'http://192.168.0.60:9091'
+        passHostHeader: true
+    radarr:
+      loadBalancer:
+        servers:
+          - url: 'http://192.168.0.60:7878'
+        passHostHeader: true
+    sonarr:
+      loadBalancer:
+        servers:
+          - url: 'http://192.168.0.60:8989'
+        passHostHeader: true
+    overseerr:
+      loadBalancer:
+        servers:
+          - url: 'http://192.168.0.60:5055'
+        passHostHeader: true
+    prowlarr:
+      loadBalancer:
+        servers:
+          - url: 'http://192.168.0.60:9696'
+        passHostHeader: true
+    homeassistant:
+      loadBalancer:
+        servers:
+          - url: 'https://192.168.0.64:8123'
         passHostHeader: true
 
   #endregion
   middlewares:
     addprefix-pihole:
       addPrefix:
-        prefix: "/admin"
+        prefix: '/admin'
     https-redirect:
       redirectScheme:
         scheme: https
@@ -123,9 +226,9 @@ http:
     default-whitelist:
       ipWhiteList:
         sourceRange:
-          - "10.0.0.0/8"
-          - "192.168.0.0/16"
-          - "172.16.0.0/12"
+          - '10.0.0.0/8'
+          - '192.168.0.0/16'
+          - '172.16.0.0/12'
 
     secured:
       chain:
