@@ -1,5 +1,5 @@
 [pi]
-pi
+pi3b
 
 [pi:vars]
 ansible_user=serveradmin
