@@ -43,3 +43,12 @@
     group: root
     mode: 0644
   tags: ['nut', 'setup']
+
+- name: Copy upsd.conf
+  template:
+    src: nut/upsd.conf.j2
+    dest: /etc/nut/upsd.conf
+    owner: root
+    group: root
+    mode: 0644
+  tags: ['nut', 'setup']
