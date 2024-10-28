@@ -1,0 +1,36 @@
+---
+- name: Install NUT Web Server
+  apt:
+    name:
+      - apache2
+      - nut-cgi
+    state: present
+  tags: ['nut', 'setup']
+
+- name: Copy hosts.conf
+  template:
+    src: nut-web/hosts.conf.j2
+    dest: /etc/nut/hosts.conf
+    owner: root
+    group: root
+    mode: 0644
+  tags: ['nut', 'setup']
+
+- name: Copy upsset.conf
+  template:
+    src: nut-web/upsset.conf.j2
+    dest: /etc/nut/upsset.conf
+    owner: root
+    group: root
+    mode: 0644
+  tags: ['nut', 'setup']
+
+- name: execute a2enmod cgi
+  command: a2enmod cgi
+  tags: ['nut', 'setup']
+
+- name: restart apache2
+  service:
+    name: apache2
+    state: restarted
+  tags: ['nut', 'setup']

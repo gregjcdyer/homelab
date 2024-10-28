@@ -14,3 +14,6 @@
     - name: Setup NUT Server
       include_tasks: roles/nut/main.yml
       tags: ['nut', 'setup']
+    - name: Setup NUT Web Server
+      include_tasks: roles/nut-web/main.yml
+      tags: ['nut', 'setup']
