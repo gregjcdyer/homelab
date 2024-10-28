@@ -7,3 +7,10 @@
         update_cache: yes
         upgrade: yes
       tags: ['setup', 'update']
+
+- hosts: pi
+  become: true
+  tasks:
+    - name: Setup NUT Server
+      include_tasks: roles/nut/main.yml
+      tags: ['nut', 'setup']

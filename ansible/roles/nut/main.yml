@@ -1,0 +1,45 @@
+---
+- name: Install NUT
+  apt:
+    name:
+      - nut
+      - nut-client
+      - nut-server
+    state: present
+  tags: ['nut', 'setup']
+
+- name: Copy nut.conf
+  template:
+    src: nut/nut.conf.j2
+    dest: /etc/nut/nut.conf
+    owner: root
+    group: root
+    mode: 0644
+  tags: ['nut', 'setup']
+
+- name: Copy ups.conf
+  template:
+    src: nut/ups.conf.j2
+    dest: /etc/nut/ups.conf
+    owner: root
+    group: root
+    mode: 0644
+  tags: ['nut', 'setup']
+
+- name: Copy upsmon.conf
+  template:
+    src: nut/upsmon.conf.j2
+    dest: /etc/nut/upsmon.conf
+    owner: root
+    group: root
+    mode: 0644
+  tags: ['nut', 'setup']
+
+- name: Copy upsd.users
+  template:
+    src: nut/upsd.users.j2
+    dest: /etc/nut/upsd.users
+    owner: root
+    group: root
+    mode: 0644
+  tags: ['nut', 'setup']
