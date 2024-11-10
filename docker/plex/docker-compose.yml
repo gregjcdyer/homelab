@@ -10,6 +10,8 @@ services:
       - PGID=1000
       - VERSION=docker
       #- PLEX_CLAIM= #optional
+    devices:
+      - /dev/dri:/dev/dri # For intel hwaccel, needs to be updated for your hardware
     volumes:
       - /home/serveradmin/plex/data:/config
       - /mnt/nas-media/Plex/TV Shows:/tv
