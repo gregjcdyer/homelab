@@ -1,0 +1,83 @@
+---
+version: '3.8'
+name: unifi-network-application
+services:
+  unifi-db:
+    container_name: unifi-db
+    image: docker.io/mongo:4.4
+    configs:
+      - source: init-mongo.js
+        target: /docker-entrypoint-initdb.d/init-mongo.js
+    environment:
+      - PGID=1000
+      - PUID=1000
+      - TZ=Etc/UTC
+    ports:
+      - target: 27017
+        published: '27017'
+        protocol: tcp
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        source: /home/serveradmin/unifi-app/unifi-db
+        target: /data/db
+    networks:
+      - proxy
+
+  unifi-network-application:
+    container_name: unifi-network-application
+    depends_on:
+      unifi-db:
+        condition: service_started
+        required: true
+    environment:
+      - MONGO_DBNAME=unifi-db
+      - MONGO_HOST=unifi-db
+      - MONGO_PASS=pass
+      - MONGO_PORT=27017
+      - MONGO_USER=unifi
+      - PGID=1000
+      - PUID=1000
+      - TZ=Etc/UTC
+    image: lscr.io/linuxserver/unifi-network-application:latest
+    ports:
+      - target: 8443
+        published: '8443'
+        protocol: tcp
+      - target: 3478
+        published: '3478'
+        protocol: udp
+      - target: 10001
+        published: '10001'
+        protocol: udp
+      - target: 8080
+        published: '8080'
+        protocol: tcp
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        source: /home/serveradmin/unifi-app/unifi-network-application
+        target: /config
+    networks:
+      - proxy
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.http.routers.unifi.entrypoints=https'
+      - 'traefik.http.routers.unifi.rule=Host(`unifi.local.gregdyer.ca`)'
+      - 'traefik.http.middlewares.unifi-https-redirect.redirectscheme.scheme=https'
+      - 'traefik.http.routers.unifi.middlewares=unifi-https-redirect'
+      - 'traefik.http.routers.unifi-secure.entrypoints=https'
+      - 'traefik.http.routers.unifi-secure.rule=Host(`unifi.local.gregdyer.ca`)'
+      - 'traefik.http.routers.unifi-secure.tls=true'
+      - 'traefik.http.routers.unifi-secure.service=unifi'
+      - 'traefik.http.services.unifi.loadbalancer.server.port=8443'
+      - 'traefik.http.services.unifi.loadbalancer.server.scheme=https'
+      - 'traefik.docker.network=proxy'
+
+networks:
+  proxy:
+    external: true
+
+configs:
+  init-mongo.js:
+    file: ./init-mongo.js
