@@ -114,6 +114,14 @@ http:
         - default-headers
       tls: {}
       service: homeassistant
+    nestmtx:
+      entryPoints:
+        - 'https'
+      rule: 'Host(`nestmtx.local.gregdyer.ca`)'
+      middlewares:
+        - default-headers
+      tls: {}
+      service: nestmtx
   #endregion
   #region services
   services:
@@ -186,6 +194,11 @@ http:
       loadBalancer:
         servers:
           - url: 'https://192.168.0.64:8123'
+        passHostHeader: true
+    nestmtx:
+      loadBalancer:
+        servers:
+          - url: 'https://192.168.0.63:2001'
         passHostHeader: true
 
   #endregion
