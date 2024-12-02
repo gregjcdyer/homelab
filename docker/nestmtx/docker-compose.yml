@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  nestmtx:
+    image: nestmtx/amd64:latest
+    container_name: nestmtx
+    restart: unless-stopped
+    environment:
+      - RTP_MAX_PORT=10100
+      - MEDIA_MTX_RTSP_ENABLED=true
+      - MEDIA_MTX_RTMP_ENABLED=true
+      - MEDIA_MTX_HLS_ENABLED=true
+      - MEDIA_MTX_WEB_RTC_ENABLED=true
+      - MEDIA_MTX_SRT_ENABLED=true
+    ports:
+      - '2000:2000'
+      - '2001:2001'
+      - '1935:1935'
+      - '8000:8000/udp'
+      - '8001:8001/udp'
+      - '8189:8189/tcp'
+      - '8189:8189/udp'
+      - '8554:8554'
+      - '8888:8888'
+      - '8889:8889'
+      - '8890:8890'
+      - '10000-10100:10000-10100/udp'
+    volumes:
+      - /home/serveradmin/nestmtx:/home/node/app/tmp
