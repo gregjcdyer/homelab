@@ -1,5 +1,8 @@
 [servers]
 pi3b ansible_host=192.168.0.6
 
+[vms]
+cluster00 ansible_host=192.168.0.65
+
 [all:vars]
 ansible_python_interpreter=/usr/bin/python3

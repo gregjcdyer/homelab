@@ -8,12 +8,21 @@
         upgrade: yes
       tags: ['setup', 'update']
 
+- hosts: vms
+  become: true
+  tasks:
+    - name: QEMU guest agent
+      apt:
+        name: qemu-guest-agent
+        state: present
+      tags: ['setup']
+
 - hosts: pi
   become: true
   tasks:
     - name: Setup NUT Server
       include_tasks: roles/nut/main.yml
-      tags: ['nut', 'setup']
+      tags: ['nut']
     - name: Setup NUT Web Server
       include_tasks: roles/nut-web/main.yml
-      tags: ['nut', 'setup']
+      tags: ['nut']

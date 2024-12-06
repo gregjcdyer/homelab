@@ -1,5 +1,11 @@
 [pi]
 pi3b
 
+[vm]
+cluster00
+
 [pi:vars]
+ansible_user=serveradmin
+
+[vm:vars]
 ansible_user=serveradmin
