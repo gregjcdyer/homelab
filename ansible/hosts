@@ -2,6 +2,11 @@
 pi3b ansible_host=192.168.0.6
 
 [vms]
+rancher ansible_host=192.168.0.60
+pihole ansible_host=192.168.0.5
+portainer ansible_host=192.168.0.61
+hermes ansible_host=192.168.0.62
+dante ansible_host=192.168.0.64
 cluster00 ansible_host=192.168.0.65
 
 [all:vars]
