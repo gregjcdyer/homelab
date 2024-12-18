@@ -3,6 +3,11 @@ pi3b
 
 [vm]
 cluster00
+cluster01
+cluster02
+cluster03
+cluster04
+cluster05
 
 [pi:vars]
 ansible_user=serveradmin

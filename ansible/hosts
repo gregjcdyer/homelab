@@ -8,6 +8,11 @@ portainer ansible_host=192.168.0.61
 hermes ansible_host=192.168.0.62
 dante ansible_host=192.168.0.64
 cluster00 ansible_host=192.168.0.65
+cluster01 ansible_host=192.168.0.66
+cluster02 ansible_host=192.168.0.67
+cluster03 ansible_host=192.168.0.68
+cluster04 ansible_host=192.168.0.69
+cluster05 ansible_host=192.168.0.70
 
 [all:vars]
 ansible_python_interpreter=/usr/bin/python3
