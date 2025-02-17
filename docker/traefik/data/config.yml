@@ -122,6 +122,14 @@ http:
         - default-headers
       tls: {}
       service: nestmtx
+    jellyseerr:
+      entryPoints:
+        - 'https'
+      rule: 'Host(`jellyseerr.local.gregdyer.ca`)'
+      middlewares:
+        - default-headers
+      tls: {}
+      service: jellyseerr
   #endregion
   #region services
   services:
@@ -199,6 +207,11 @@ http:
       loadBalancer:
         servers:
           - url: 'https://192.168.0.63:2001'
+        passHostHeader: true
+    jellyseerr:
+      loadBalancer:
+        servers:
+          - url: 'http://192.168.0.60:5065'
         passHostHeader: true
 
   #endregion
