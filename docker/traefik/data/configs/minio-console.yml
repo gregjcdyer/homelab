@@ -1,0 +1,16 @@
+http:
+  routers:
+    minio-console:
+      entryPoints:
+        - 'https'
+      rule: 'Host(`minio-console.local.gregdyer.ca`)'
+      middlewares:
+        - default-headers
+      tls: {}
+      service: minio-console
+  services:
+    minio-console:
+      loadBalancer:
+        servers:
+          - url: 'https://192.168.0.200'
+        passHostHeader: true

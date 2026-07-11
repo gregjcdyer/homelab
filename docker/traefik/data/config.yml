@@ -26,14 +26,6 @@ http:
         - default-headers
       tls: {}
       service: plex
-    rancher:
-      entryPoints:
-        - 'https'
-      rule: 'Host(`rancher.local.gregdyer.ca`)'
-      middlewares:
-        - default-headers
-      tls: {}
-      service: rancher
     idrac:
       entryPoints:
         - 'https'
@@ -130,6 +122,118 @@ http:
         - default-headers
       tls: {}
       service: jellyseerr
+    flaresolverr:
+      entryPoints:
+        - 'https'
+      rule: 'Host(`flaresolverr.local.gregdyer.ca`)'
+      middlewares:
+        - default-headers
+      tls: {}
+      service: flaresolverr
+    frigate:
+      entryPoints:
+        - 'https'
+      rule: 'Host(`frigate.local.gregdyer.ca`)'
+      middlewares:
+        - default-headers
+      tls: {}
+      service: frigate
+    ollama:
+      entryPoints:
+        - 'https'
+      rule: 'Host(`ollama.local.gregdyer.ca`)'
+      middlewares:
+        - default-headers
+      tls: {}
+      service: ollama
+    piper:
+      entryPoints:
+        - 'https'
+      rule: 'Host(`piper.local.gregdyer.ca`)'
+      middlewares:
+        - default-headers
+      tls: {}
+      service: piper
+    whisper:
+      entryPoints:
+        - 'https'
+      rule: 'Host(`whisper.local.gregdyer.ca`)'
+      middlewares:
+        - default-headers
+      tls: {}
+      service: whisper
+    jackett:
+      entryPoints:
+        - 'https'
+      rule: 'Host(`jackett.local.gregdyer.ca`)'
+      middlewares:
+        - default-headers
+      tls: {}
+      service: jackett
+    lidarr:
+      entryPoints:
+        - 'https'
+      rule: 'Host(`lidarr.local.gregdyer.ca`)'
+      middlewares:
+        - default-headers
+      tls: {}
+      service: lidarr
+    portainer:
+      entryPoints:
+        - 'https'
+      rule: 'Host(`portainer.local.gregdyer.ca`)'
+      middlewares:
+        - default-headers
+      tls: {}
+      service: portainer
+    handbrake:
+      entryPoints:
+        - 'https'
+      rule: 'Host(`handbrake.local.gregdyer.ca`)'
+      middlewares:
+        - default-headers
+      tls: {}
+      service: handbrake
+    heimdall:
+      entryPoints:
+        - 'https'
+      rule: 'Host(`heimdall.local.gregdyer.ca`)'
+      middlewares:
+        - default-headers
+      tls: {}
+      service: heimdall
+    homebridge:
+      entryPoints:
+        - 'https'
+      rule: 'Host(`homebridge.local.gregdyer.ca`)'
+      middlewares:
+        - default-headers
+      tls: {}
+      service: homebridge
+    homepage:
+      entryPoints:
+        - 'https'
+      rule: 'Host(`homepage.local.gregdyer.ca`)'
+      middlewares:
+        - default-headers
+      tls: {}
+      service: homepage
+    unifi:
+      entryPoints:
+        - 'https'
+      rule: 'Host(`unifi.local.gregdyer.ca`)'
+      middlewares:
+        - default-headers
+      tls: {}
+      service: unifi
+    rancher-router:
+      entryPoints:
+        - 'https'
+      rule: 'Host(`rancher.local.gregdyer.ca`)'
+      tls: {} # This uses your existing signed certs
+      service: rancher-service
+      middlewares:
+        - default-headers
   #endregion
   #region services
   services:
@@ -147,11 +251,6 @@ http:
       loadBalancer:
         servers:
           - url: 'https://192.168.0.61:32400'
-        passHostHeader: true
-    rancher:
-      loadBalancer:
-        servers:
-          - url: 'https://192.168.0.107'
         passHostHeader: true
     idrac:
       loadBalancer:
@@ -213,8 +312,82 @@ http:
         servers:
           - url: 'http://192.168.0.60:5065'
         passHostHeader: true
+    flaresolverr:
+      loadBalancer:
+        servers:
+          - url: 'http://192.168.0.60:8191'
+        passHostHeader: true
+    frigate:
+      loadBalancer:
+        servers:
+          - url: 'http://192.168.0.60:5000'
+        passHostHeader: true
+    ollama:
+      loadBalancer:
+        servers:
+          - url: 'http://192.168.0.60:8080'
+        passHostHeader: true
+    piper:
+      loadBalancer:
+        servers:
+          - url: 'http://192.168.0.60:10200'
+        passHostHeader: true
+    whisper:
+      loadBalancer:
+        servers:
+          - url: 'http://192.168.0.60:10300'
+        passHostHeader: true
+    jackett:
+      loadBalancer:
+        servers:
+          - url: 'http://192.168.0.60:9117'
+        passHostHeader: true
+    lidarr:
+      loadBalancer:
+        servers:
+          - url: 'http://192.168.0.60:8686'
+        passHostHeader: true
+    portainer:
+      loadBalancer:
+        servers:
+          - url: 'http://192.168.0.60:9000'
+        passHostHeader: true
+    handbrake:
+      loadBalancer:
+        servers:
+          - url: 'http://192.168.0.60:5800'
+        passHostHeader: true
+    heimdall:
+      loadBalancer:
+        servers:
+          - url: 'http://192.168.0.60:10000'
+        passHostHeader: true
+    homebridge:
+      loadBalancer:
+        servers:
+          - url: 'http://192.168.0.60:8581'
+        passHostHeader: true
+    homepage:
+      loadBalancer:
+        servers:
+          - url: 'http://192.168.0.60:3000'
+        passHostHeader: true
+    unifi:
+      loadBalancer:
+        servers:
+          - url: 'https://192.168.0.60:8443'
+        passHostHeader: true
+
+    rancher-service:
+      loadBalancer:
+        servers:
+          # We connect to K3s on 443, but we must tell Traefik to ignore K3s's self-signed cert
+          - url: 'https://192.168.0.66:443'
+          - url: 'https://192.168.0.67:443'
+        passHostHeader: true
 
   #endregion
+
   middlewares:
     addprefix-pihole:
       addPrefix:
@@ -261,3 +434,19 @@ http:
         middlewares:
           - default-whitelist
           - default-headers
+tcp:
+  routers:
+    k3s-api:
+      rule: 'HostSNI(`*`)'
+      entryPoints:
+        - 'k3s-api' # Usually port 6443
+      service: 'k3s-api-nodes'
+      tls:
+        passthrough: true # CRITICAL: Lets K3s handle the self-signed certs
+
+  services:
+    k3s-api-nodes:
+      loadBalancer:
+        servers:
+          - address: '192.168.0.66:6443'
+          - address: '192.168.0.67:6443'

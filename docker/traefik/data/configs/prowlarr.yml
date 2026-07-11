@@ -1,0 +1,16 @@
+http:
+  routers:
+    prowlarr:
+      entryPoints:
+        - 'https'
+      rule: 'Host(`prowlarr.local.gregdyer.ca`)'
+      middlewares:
+        - default-headers
+      tls: {}
+      service: prowlarr
+  services:
+    prowlarr:
+      loadBalancer:
+        servers:
+          - url: 'http://192.168.0.60:9696'
+        passHostHeader: true

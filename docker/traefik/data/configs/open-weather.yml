@@ -1,0 +1,16 @@
+http:
+  routers:
+    open-weather:
+      entryPoints:
+        - 'https'
+      rule: 'Host(`open-weather.local.gregdyer.ca`)'
+      middlewares:
+        - default-headers
+      tls: {}
+      service: open-weather
+  services:
+    open-weather:
+      loadBalancer:
+        servers:
+          - url: 'http://192.168.0.200:80'
+        passHostHeader: true

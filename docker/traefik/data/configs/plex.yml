@@ -1,0 +1,16 @@
+http:
+  routers:
+    plex:
+      entryPoints:
+        - 'https'
+      rule: 'Host(`plex.local.gregdyer.ca`)'
+      middlewares:
+        - default-headers
+      tls: {}
+      service: plex
+  services:
+    plex:
+      loadBalancer:
+        servers:
+          - url: 'https://192.168.0.61:32400'
+        passHostHeader: true

@@ -1,0 +1,17 @@
+http:
+  routers:
+    pihole:
+      entryPoints:
+        - 'https'
+      rule: 'Host(`pihole.local.gregdyer.ca`)'
+      middlewares:
+        - default-headers
+        - addprefix-pihole
+      tls: {}
+      service: pihole
+  services:
+    pihole:
+      loadBalancer:
+        servers:
+          - url: 'http://192.168.0.5:80'
+        passHostHeader: true

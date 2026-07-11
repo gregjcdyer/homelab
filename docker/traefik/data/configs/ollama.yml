@@ -1,0 +1,16 @@
+http:
+  routers:
+    ollama:
+      entryPoints:
+        - 'https'
+      rule: 'Host(`ollama.local.gregdyer.ca`)'
+      middlewares:
+        - default-headers
+      tls: {}
+      service: ollama
+  services:
+    ollama:
+      loadBalancer:
+        servers:
+          - url: 'http://192.168.0.60:8080'
+        passHostHeader: true

@@ -1,0 +1,16 @@
+http:
+  routers:
+    overseerr:
+      entryPoints:
+        - 'https'
+      rule: 'Host(`overseerr.local.gregdyer.ca`)'
+      middlewares:
+        - default-headers
+      tls: {}
+      service: overseerr
+  services:
+    overseerr:
+      loadBalancer:
+        servers:
+          - url: 'http://192.168.0.60:5055'
+        passHostHeader: true

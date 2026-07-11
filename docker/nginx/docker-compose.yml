@@ -1,0 +1,12 @@
+---
+version: '2.1'
+services:
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    ports:
+      - '6443:6443' # Map host port 80 to Nginx container port 80
+      - '443:443' # Map host port 443 to Nginx container port 443
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf # Mount custom nginx as the main nginx.conf so stream{} is allowed
+    restart: unless-stopped

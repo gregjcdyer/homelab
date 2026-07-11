@@ -1,0 +1,16 @@
+http:
+  routers:
+    jellyseerr:
+      entryPoints:
+        - 'https'
+      rule: 'Host(`jellyseerr.local.gregdyer.ca`)'
+      middlewares:
+        - default-headers
+      tls: {}
+      service: jellyseerr
+  services:
+    jellyseerr:
+      loadBalancer:
+        servers:
+          - url: 'http://192.168.0.60:5065'
+        passHostHeader: true

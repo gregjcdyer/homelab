@@ -1,0 +1,16 @@
+tcp:
+  routers:
+    k3s-api:
+      rule: 'HostSNI(`*`)'
+      entryPoints:
+        - 'k3s-api' # Usually port 6443
+      service: 'k3s-api-nodes'
+      tls:
+        passthrough: true # CRITICAL: Lets K3s handle the self-signed certs
+
+  services:
+    k3s-api-nodes:
+      loadBalancer:
+        servers:
+          - address: '192.168.0.66:6443'
+          - address: '192.168.0.67:6443'

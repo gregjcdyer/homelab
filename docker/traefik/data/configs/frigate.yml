@@ -1,0 +1,16 @@
+http:
+  routers:
+    frigate:
+      entryPoints:
+        - 'https'
+      rule: 'Host(`frigate.local.gregdyer.ca`)'
+      middlewares:
+        - default-headers
+      tls: {}
+      service: frigate
+  services:
+    frigate:
+      loadBalancer:
+        servers:
+          - url: 'http://192.168.0.60:5000'
+        passHostHeader: true

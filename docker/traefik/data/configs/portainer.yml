@@ -1,0 +1,16 @@
+http:
+  routers:
+    portainer:
+      entryPoints:
+        - 'https'
+      rule: 'Host(`portainer.local.gregdyer.ca`)'
+      middlewares:
+        - default-headers
+      tls: {}
+      service: portainer
+  services:
+    portainer:
+      loadBalancer:
+        servers:
+          - url: 'http://192.168.0.60:9000'
+        passHostHeader: true

@@ -1,0 +1,16 @@
+http:
+  routers:
+    unifi:
+      entryPoints:
+        - 'https'
+      rule: 'Host(`unifi.local.gregdyer.ca`)'
+      middlewares:
+        - default-headers
+      tls: {}
+      service: unifi
+  services:
+    unifi:
+      loadBalancer:
+        servers:
+          - url: 'https://192.168.0.64:8443'
+        passHostHeader: true

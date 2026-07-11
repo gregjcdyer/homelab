@@ -1,0 +1,18 @@
+http:
+  routers:
+    rancher-router:
+      entryPoints:
+        - 'https'
+      rule: 'Host(`rancher.local.gregdyer.ca`)'
+      tls: {}
+      service: rancher-service
+      middlewares:
+        - default-headers
+  services:
+    rancher-service:
+      loadBalancer:
+        servers:
+          # We connect to K3s on 443, but we must tell Traefik to ignore K3s's self-signed cert
+          - url: 'https://192.168.0.66:443'
+          - url: 'https://192.168.0.67:443'
+        passHostHeader: true

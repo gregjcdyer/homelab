@@ -1,0 +1,16 @@
+http:
+  routers:
+    handbrake:
+      entryPoints:
+        - 'https'
+      rule: 'Host(`handbrake.local.gregdyer.ca`)'
+      middlewares:
+        - default-headers
+      tls: {}
+      service: handbrake
+  services:
+    handbrake:
+      loadBalancer:
+        servers:
+          - url: 'http://192.168.0.60:5800'
+        passHostHeader: true

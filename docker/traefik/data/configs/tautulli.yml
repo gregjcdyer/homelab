@@ -1,0 +1,16 @@
+http:
+  routers:
+    tautulli:
+      entryPoints:
+        - 'https'
+      rule: 'Host(`tautulli.local.gregdyer.ca`)'
+      middlewares:
+        - default-headers
+      tls: {}
+      service: tautulli
+  services:
+    tautulli:
+      loadBalancer:
+        servers:
+          - url: 'http://192.168.0.61:8181'
+        passHostHeader: true

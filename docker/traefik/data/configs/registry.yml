@@ -1,0 +1,16 @@
+http:
+  routers:
+    registery:
+      entryPoints:
+        - 'https'
+      rule: 'Host(`registry.local.gregdyer.ca`)'
+      middlewares:
+        - default-headers
+      tls: {}
+      service: registery
+  services:
+    registery:
+      loadBalancer:
+        servers:
+          - url: 'http://192.168.0.201:5000'
+        passHostHeader: true

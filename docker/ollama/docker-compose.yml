@@ -74,6 +74,24 @@ services:
     volumes:
       - open-webui:/app/backend/data
     restart: unless-stopped
+    networks:
+      - proxy
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.http.routers.ollama.entrypoints=http'
+      - 'traefik.http.routers.ollama.rule=Host(`ollama.local.gregdyer.ca`)'
+      - 'traefik.http.middlewares.ollama-https-redirect.redirectscheme.scheme=https'
+      - 'traefik.http.routers.ollama.middlewares=ollama-https-redirect'
+      - 'traefik.http.routers.ollama-secure.entrypoints=https'
+      - 'traefik.http.routers.ollama-secure.rule=Host(`ollama.local.gregdyer.ca`)'
+      - 'traefik.http.routers.ollama-secure.tls=true'
+      - 'traefik.http.routers.ollama-secure.service=ollama'
+      - 'traefik.http.services.ollama.loadbalancer.server.port=8080'
+      - 'traefik.docker.network=proxy'
 
 volumes:
   open-webui: {}
+
+networks:
+  proxy:
+    external: true

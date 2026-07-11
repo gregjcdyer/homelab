@@ -1,0 +1,16 @@
+http:
+  routers:
+    jackett:
+      entryPoints:
+        - 'https'
+      rule: 'Host(`jackett.local.gregdyer.ca`)'
+      middlewares:
+        - default-headers
+      tls: {}
+      service: jackett
+  services:
+    jackett:
+      loadBalancer:
+        servers:
+          - url: 'http://192.168.0.60:9117'
+        passHostHeader: true

@@ -1,0 +1,16 @@
+http:
+  routers:
+    homeassistant:
+      entryPoints:
+        - 'https'
+      rule: 'Host(`home-assistant.local.gregdyer.ca`)'
+      middlewares:
+        - default-headers
+      tls: {}
+      service: homeassistant
+  services:
+    homeassistant:
+      loadBalancer:
+        servers:
+          - url: 'https://192.168.0.64:8123'
+        passHostHeader: true

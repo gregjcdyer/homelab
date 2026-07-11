@@ -1,0 +1,16 @@
+http:
+  routers:
+    whisper:
+      entryPoints:
+        - 'https'
+      rule: 'Host(`whisper.local.gregdyer.ca`)'
+      middlewares:
+        - default-headers
+      tls: {}
+      service: whisper
+  services:
+    whisper:
+      loadBalancer:
+        servers:
+          - url: 'http://192.168.0.60:10300'
+        passHostHeader: true

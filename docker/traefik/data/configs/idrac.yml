@@ -1,0 +1,29 @@
+http:
+  routers:
+    idrac:
+      entryPoints:
+        - 'https'
+      rule: 'Host(`idrac.local.gregdyer.ca`)'
+      middlewares:
+        - idrac
+      tls: {}
+      service: idrac
+    idrac-console:
+      #entryPoints:
+      #- 'idrac' # REQUIRED for iDRAC virtual console: Create a new TCP entry point in traefik on port 5900
+      rule: 'Host(`idrac.local.gregdyer.ca`)'
+      middlewares:
+        - idrac
+      tls: {}
+      service: idrac-console
+  services:
+    idrac:
+      loadBalancer:
+        servers:
+          - url: 'https://192.168.0.20'
+        passHostHeader: true
+    idrac-console:
+      loadBalancer:
+        servers:
+          - url: 'https://192.168.0.20:5900'
+        passHostHeader: true

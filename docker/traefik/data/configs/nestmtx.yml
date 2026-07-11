@@ -1,0 +1,16 @@
+http:
+  routers:
+    nestmtx:
+      entryPoints:
+        - 'https'
+      rule: 'Host(`nestmtx.local.gregdyer.ca`)'
+      middlewares:
+        - default-headers
+      tls: {}
+      service: nestmtx
+  services:
+    nestmtx:
+      loadBalancer:
+        servers:
+          - url: 'https://192.168.0.63:2001'
+        passHostHeader: true

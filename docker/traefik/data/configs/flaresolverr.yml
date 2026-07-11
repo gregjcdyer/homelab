@@ -1,0 +1,16 @@
+http:
+  routers:
+    flaresolverr:
+      entryPoints:
+        - 'https'
+      rule: 'Host(`flaresolverr.local.gregdyer.ca`)'
+      middlewares:
+        - default-headers
+      tls: {}
+      service: flaresolverr
+  services:
+    flaresolverr:
+      loadBalancer:
+        servers:
+          - url: 'http://192.168.0.60:8191'
+        passHostHeader: true

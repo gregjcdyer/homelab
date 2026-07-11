@@ -1,0 +1,16 @@
+http:
+  routers:
+    homebridge:
+      entryPoints:
+        - 'https'
+      rule: 'Host(`homebridge.local.gregdyer.ca`)'
+      middlewares:
+        - default-headers
+      tls: {}
+      service: homebridge
+  services:
+    homebridge:
+      loadBalancer:
+        servers:
+          - url: 'http://192.168.0.60:8581'
+        passHostHeader: true
